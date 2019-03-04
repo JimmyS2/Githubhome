@@ -1,2 +1,2 @@
 # Githubhome
-Woohyun's Github Home
+Jimmy's Github Home
