@@ -14,24 +14,24 @@ library(AppliedPredictiveModeling)
 movies_data<-read.csv('movie_data.csv')
 str(movies_data)
 
-colnames(movies_data) # 15°³ º¯¼ö 
+colnames(movies_data) # 15ê°œ ë³€ìˆ˜ 
 
 
-# Remove "NA" obs (º¯È­ ¾øÀ½)
+# Remove "NA" obs (ë³€í™” ì—†ìŒ)
 library(TestDataImputation)
 movies_data<-Listwise(movies_data,Mvalue = "NA") 
 str(movies_data) 
 
 y<-movies_data$revenue- movies_data$budget
 idx<- which(y>=0)
-y[idx]<-1 # ÈæÀÚ 
-y[-idx]<-0 # ÀûÀÚ
+y[idx]<-1 # í‘ìž 
+y[-idx]<-0 # ì ìž
 y<-as.factor(y)
 str(y)
 
 movies_data$y<-y
 
-################ Ãß°¡ÀûÀ¸·Î ¾È¾²´Â º¯¼ö »©±â #############
+################ ì¶”ê°€ì ìœ¼ë¡œ ì•ˆì“°ëŠ” ë³€ìˆ˜ ë¹¼ê¸° #############
 movies_data$overview<-NULL
 movies_data$production_companies<-NULL
 movies_data$revenue<-NULL
@@ -49,8 +49,8 @@ nrow(traindata)
 nrow(testdata)
 head(traindata)
 
-##### cutoff ¼³Á¤ ######
-# 1ÀÎ obs / ÀüÃ¼ obs 
+##### cutoff ì„¤ì • ######
+# 1ì¸ obs / ì „ì²´ obs 
 length(which(movies_data$y==1))/length(movies_data$y) # 0.75
 
 cutoff<- 0.70
@@ -105,7 +105,7 @@ param = list(booster = 'gbtree',
 
 XGtr = xgb.train(params = param, data = train,
                  nrounds = 295, watchlist=watchlist)
-#295¿¡¼­ ¿¡·¯ ÃÖ¼Ò 
+#295ì—ì„œ ì—ëŸ¬ ìµœì†Œ 
 
 xgpre <- as.numeric( predict(XGtr,test) >cutoff)
 xgpre<-as.factor(xgpre)
