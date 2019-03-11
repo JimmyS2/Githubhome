@@ -1,6 +1,6 @@
 f<-function(x){x^4-20*x^3-2*x^2+6*x-2}
 
-# ÀÌºĞ¹ı
+# ì´ë¶„ë²•
 
 `` <- function(f, a, b, tol=1e-7) {
   f <- f
@@ -300,146 +300,6 @@ cfv = function(n, R=100, mu=0, sd=1, alpha=0.05)
 
 
 
-
-######################## practice ###################
-bs<-function(f,a,b,ep=1/(10^7)){
-  if (f(a)*f(b)>0){
-    stop("signs or f(a) and f(b) are the same")
-  }
-  else if (f(a)==0) return(a)
-  else if (f(b)==0) return(b)
-  else {
-    m<-(a+b)/2
-    if (f(m)==0) return(m)
-    else if(f(m)*f(a)>0){
-      a<-m
-    }
-    else (b<-m)
-  }
-  if(abs(b-a)<ep) return((a+b)/2)
-  else (bs(f,a,b))
-}
-  
-
-cumsum.r<-function(x){
-  z<-x[1]
-  for (i in 1:c(length(x)-1)){
-    z<-c(z,z[i]+x[i+1])
-  }
-  return(z)
-}
-
-cumprod.r<-function(x){
-  z<-x[1]
-  for (i in 1:c(length(x)-1)){
-    z<-c(z,z[i]*x[i+1])
-  }
-  return(z)
-}
-
-
-# ÀûÁß¹ı 
-Junk<-function(f,a,b,n=10000){
-  if (f(a)>=0 & f(b)>=0){
-  mh<-max(c(f(a),f(b)))+1
-  al<-runif(n,0,mh)
-  inl<-runif(n,a,b)
-  p<-sum(al<=f(inl))/n
-  s<-p*(b-a)*mh
-  return(s)
-  }
-  
-  
-}
-
-# circle
-cir<-function(r,n=100000){
-  x<-runif(n,0,r)
-  y<-runif(n,0,r)
-  z<-(x^2+y^2)<=(r^2)
-  return(4*(r^2)*(sum(z)/n))
-  
-}
-
-pi.r<-function(n=1000000){
-  x<-runif(n,0,1)
-  y<-runif(n,0,1)
-  z<-(x^2+y^2)<=1
-  return((sum(z)/n)*4)
-}
-
-# confidential interval
-
-cv<-function(n, R=100, mu=0, sd=1 ,alpha=0.05){
-  K=0
-  yl<-5*sd/sqrt(n)
-  plot(c(1,R+1),c(mu,mu),type='l',col='blue',lty=2,xlab="cibal",
-        ylab='fuck',main='sorry',ylim=c(-yl,yl))
-  for ( i in 1:R){
-    x<-rnorm(n,mu,sd)
-    LB<-mean(x)+qt(alpha/2,n-1)*sd(x)/sqrt(n)
-    UB<-mean(x)+qt(1-alpha/2,n-1)*sd(x)/sqrt(n)
-    if(UB<mu | LB>mu) lines(c(i,i),c(LB,UB),col='red')
-    else{lines(c(i,i),c(LB,UB))
-         K= K+1}
-    
-  }
-    sprintf( "CV is %.2f",K/R)
-  
-  
-}
-
-# ÀÌºĞ¹ı own
-
-bss<-function(f,a,b,tol=1e-8){
-  m<-(a+b)/2
-  if (f(a)*f(b)>0) stop ("signs of a and b are same :( ")
-  else if (f(a)==0) return (a)
-  else if (f(b)==0) return (b)
-  else if (f(m)==0) return (m)
-  else if (f(a)*f(b)<0) {
-    if(f(m)*f(a)<0) b<-m
-    else (a<-m)
-    
-  }
-  if (abs(b-a)<tol) return ( (a+b)/2 )
-  else(return(bss(f,a,b)))
-  
-}
-
-
-##pie own 
-
-pie<-function(r){
-  M=0
-  plot(c(0,r+1),c(pi,pi),type='l',col="red",lwd=1.2)
-  
-  oldp<-0
-  for (i in 1:r){
-    x<-runif(2,0,1)
-    if((x[1]^2+x[2]^2) <= 1) M<-M+1
-    newp<-4*M/i
-    lines(c(i-1,i),c(oldp,newp),col='blue')
-    oldp<-newp
-  }
-  return(newp)
-  
-  
-}
-
-# ¿ø ³ĞÀÌ 
-circle<-function(n,r){
-  M=0
-  for (i in 1:n){
-    x<-runif(2,0,r)
-    if((x[1]^2+x[2]^2) <= (r^2) ) M<-M+1
-  }
-  return(4*r^2*M/n)
-  
-  
-}
-
-
 ## CLT
 CLT<-function(dist=c('normal','expo
                      nential','uniform'),...){
@@ -489,14 +349,14 @@ CLT<-function(dist=c('normal','exponential','uniform'),...){
   
   
 }
-# clt for binom (¿©±â¼­ 10 -> 1 ÀÌ¸é º£¸£´©ÀÌ)
+# clt for binom (ì—¬ê¸°ì„œ 10 -> 1 ì´ë©´ ë² ë¥´ëˆ„ì´)
 clt<-function(n,r=5000){
   a<-apply(matrix(rbinom(r*n,10,0.1),n,r),2,mean)
   plot(table(a)/r*n)
   
 }
 
-## ¸óÅ×Ä®·Î ÆÄÀÌ°ª ÃßÁ¤ (¼Óµµ ÃÖ°í, °°Àº Á¤È®µµ¶ó¸é ³­¼ö ´õ Àû°Ô ÇÊ¿äÇÔ, ÃÖ°í ¿ì¿ù)
+## ëª¬í…Œì¹¼ë¡œ íŒŒì´ê°’ ì¶”ì • (ì†ë„ ìµœê³ , ê°™ì€ ì •í™•ë„ë¼ë©´ ë‚œìˆ˜ ë” ì ê²Œ í•„ìš”í•¨, ìµœê³  ìš°ì›”)
 SM<-function(n){
   x<-runif(n)
   return(4*mean(sqrt(1-x^2)))
@@ -505,7 +365,7 @@ curve(sqrt(1-x^2),0,1)
 abline(v=0);abline(h=0)
 SM(100000)
 
-## Ç¥º»Æò±Õ ÀûÁß¹ı ¸óÅ×Ä®·Î 
+## í‘œë³¸í‰ê·  ì ì¤‘ë²• ëª¬í…Œì¹¼ë¡œ 
 SM2<-function(f,a,b,n=10000){
   x=a+(b-a)*runif(n)
   return((b-a)*mean(f(x)))
@@ -522,7 +382,7 @@ mon<-function(f,a,b,n=100000){
 }
 
 
-# ±³¾È ¸¶Áö¸· pie ÃßÁ¤ °£´ÜÇÏ´Ï±î ±×°É·Î ÇØº¸ÀÚ 
+# êµì•ˆ ë§ˆì§€ë§‰ pie ì¶”ì • ê°„ë‹¨í•˜ë‹ˆê¹Œ ê·¸ê±¸ë¡œ í•´ë³´ì 
 
 
 mi<-function(x){
