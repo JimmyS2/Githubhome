@@ -21,26 +21,26 @@ library(tidyr)
 movies_data<-read.csv('movie_data.csv')
 str(movies_data)
 
-colnames(movies_data) # 15°³ º¯¼ö 
+colnames(movies_data) # 15ê°œ ë³€ìˆ˜ 
 
 
-# Remove "NA" obs (º¯È­ ¾øÀ½)
+# Remove "NA" obs (ë³€í™” ì—†ìŒ)
 library(TestDataImputation)
 movies_data<-Listwise(movies_data,Mvalue = "NA") 
 str(movies_data) 
 
-## ¼ø¼öÀÍ yÀÇ ºÐÆ÷¸¦ º¸ÀÚ. 
+## ìˆœìˆ˜ìµ yì˜ ë¶„í¬ë¥¼ ë³´ìž. 
 idx<-which(movies_data$revenue==0)
 movies_data$revenue[idx]<-1
 movies_data$y<- log(movies_data$revenue) - log(movies_data$budget)
-hist(movies_data$y,breaks=50, main='revenu 0 ÀÎ ¾ÆÀÌµé ³Ö¾úÀ» ¶§ y ºÐÆ÷')
+hist(movies_data$y,breaks=50, main='revenu 0 ì¸ ì•„ì´ë“¤ ë„£ì—ˆì„ ë•Œ y ë¶„í¬')
 
-## È÷ÀÍ! revenue=0ÀÎ Ä£±¸µéÀ» »©º¸ÀÚ
+## ížˆìµ! revenue=0ì¸ ì¹œêµ¬ë“¤ì„ ë¹¼ë³´ìž
 movies_data<-movies_data[-idx,]
 movies_data$y<- log(movies_data$revenue) - log(movies_data$budget)
-hist(movies_data$y,breaks=50, main='revenu 0 ÀÎ ¾ÆÀÌµé »°À» ¶§ y ºÐÆ÷')
+hist(movies_data$y,breaks=50, main='revenu 0 ì¸ ì•„ì´ë“¤ ëºì„ ë•Œ y ë¶„í¬')
 
-# ÁÁ¾Æ 
+# ì¢‹ì•„ 
 
 ######################################################################
 ################## genres text mining + clustering ###################
@@ -92,7 +92,7 @@ for ( i in 1:length(movies_data$genres)){
 library(tm)
 library(stats)  
 
-### ¸Ç ¸ÕÀú ³ª¿À´Â ¿µÈ­Àå¸£ ÇÏ³ª¾¿¸¸ »ÌÀ½ ###
+### ë§¨ ë¨¼ì € ë‚˜ì˜¤ëŠ” ì˜í™”ìž¥ë¥´ í•˜ë‚˜ì”©ë§Œ ë½‘ìŒ ###
 
 for ( i in c(1:length(real))){
   real[i]<-substr(real[i],1,3)
@@ -339,7 +339,7 @@ for ( i in 1:length(movies_data$production_countries)){
 rp<-Corpus(VectorSource(real_pc))
 
 pc_2 <- DocumentTermMatrix(rp,control=list(wordLength=c(2,2) ))
-pc_2 ###½Ã¹ß 
+pc_2 ###ì‹œë°œ 
 
 inspect(pc_2)
 
@@ -348,7 +348,7 @@ Freq<-colSums(as.matrix(pc_2))
 Order_Freq <- order(Freq, decreasing = TRUE)
 Freq_term[Order_Freq]
 
-### phase 2 ( Clustering )  ¾È¾¸!!!!!!!!!!!!#######
+### phase 2 ( Clustering )  ì•ˆì”€!!!!!!!!!!!!#######
 
 
 
@@ -381,7 +381,7 @@ dist
 genre_hclust <- hclust(dist, method = "ward.D")
 plot(genre_hclust)
 
-# 'k'°³ ±ºÁýÀ¸·Î ³ª´®
+# 'k'ê°œ êµ°ì§‘ìœ¼ë¡œ ë‚˜ëˆ”
 rect.hclust(genre_hclust, k=5, border="red")
 genre_hclust_final <- cutree(genre_hclust, k=5) 
 genre_hclust_final
